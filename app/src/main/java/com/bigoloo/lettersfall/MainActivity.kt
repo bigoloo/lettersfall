@@ -10,11 +10,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewModelScope
+import com.bigoloo.lettersfall.ui.WordFallViewModel
 import com.bigoloo.lettersfall.ui.theme.LettersFallTheme
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
+    val wordFallViewModel: WordFallViewModel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        wordFallViewModel.viewModelScope.toString()
         setContent {
             LettersFallTheme {
                 // A surface container using the 'background' color from the theme
