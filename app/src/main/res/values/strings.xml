@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">LettersFall</string>
+    <string name="welcome_to_game">Welcome to Game</string>
+    <string name="remain_time">Remains</string>
+    <string name="english">English</string>
+    <string name="spanish">Spanish</string>
 </resources>

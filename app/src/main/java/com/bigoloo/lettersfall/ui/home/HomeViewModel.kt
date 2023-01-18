@@ -2,6 +2,7 @@ package com.bigoloo.lettersfall.ui.home
 
 import androidx.lifecycle.viewModelScope
 import com.bigoloo.lettersfall.domian.repository.WordRepository
+import com.bigoloo.lettersfall.models.ChosenLanguage
 import com.bigoloo.lettersfall.ui.base.Actionable
 import com.bigoloo.lettersfall.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
@@ -27,18 +28,18 @@ class HomeViewModel(private val wordRepository: WordRepository) :
 
     override fun dispatch(action: HomeAction) {
         when (action) {
-            HomeAction.InitiateGame -> initiateGame()
+            is HomeAction.InitiateGame -> initiateGame(action.chosenLanguage)
         }
     }
 
-    private fun initiateGame() {
+    private fun initiateGame(chosenLanguage: ChosenLanguage) {
         viewModelScope.launch {
             setState {
                 asLoaded()!!.copy(startGameActionable = Actionable.InProgress)
             }
 
             runCatching {
-                wordRepository.startGame()
+                wordRepository.startGame(chosenLanguage)
             }.onSuccess {
                 setState {
                     asLoaded()!!.copy(startGameActionable = Actionable.Success)

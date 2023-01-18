@@ -30,13 +30,13 @@ class RemoteWordRepository(private val wordApi: WordApi) : WordRepository {
         }
     }
 
-    override suspend fun startGame() {
+    override suspend fun startGame(chosenLanguage: ChosenLanguage) {
         wordApi.getWordList().take(5).also {
-            startTheGame(it)
+            startTheGame(it, chosenLanguage)
         }
     }
 
-    private fun startTheGame(words: List<Word>) {
+    private fun startTheGame(words: List<Word>, chosenLanguage: ChosenLanguage) {
         _gameState.value = GameStatus.Started(
             currentWord = words.first(),
             currentIndex = 0,
@@ -45,7 +45,7 @@ class RemoteWordRepository(private val wordApi: WordApi) : WordRepository {
             currentTimerInSecond = 0,
             unAnsweredQuestionCount = 0,
             timePerQuestionInSecond = 10,
-            chosenLanguage = ChosenLanguage.English,
+            chosenLanguage = chosenLanguage,
             words = words
         )
     }

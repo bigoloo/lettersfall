@@ -35,13 +35,11 @@ class QuestionViewModel(private val wordRepository: WordRepository) :
         timerJob?.cancel()
     }
 
-
     private fun loadCurrentState() {
         wordRepository.getGameStatus().filterIsInstance<GameStatus.Started>().onEach {
             mapGameStatusToViewState(it)
         }.launchIn(viewModelScope)
     }
-
 
     private fun mapGameStatusToViewState(status: GameStatus.Started) {
         viewModelScope.launch {
@@ -50,8 +48,10 @@ class QuestionViewModel(private val wordRepository: WordRepository) :
                     QuestionViewState.State(
                         status.currentWord,
                         (status.timePerQuestionInSecond - status.currentTimerInSecond),
+                        status.timePerQuestionInSecond,
                         status.currentIndex + 1,
-                        status.words.size
+                        status.words.size,
+                        chosenLanguage = status.chosenLanguage
                     )
                 }
             }

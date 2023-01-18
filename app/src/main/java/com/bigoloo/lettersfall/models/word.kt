@@ -10,6 +10,26 @@ data class Word(
     val spanish: String
 )
 
+fun Word.mainWord(chosenLanguage: ChosenLanguage): String {
+    return when (chosenLanguage) {
+        ChosenLanguage.English -> {
+            english
+        }
+        ChosenLanguage.Spanish ->
+            spanish
+    }
+}
+
+fun Word.flyingWord(chosenLanguage: ChosenLanguage): String {
+    return when (chosenLanguage) {
+        ChosenLanguage.English -> {
+            spanish
+        }
+        ChosenLanguage.Spanish ->
+            english
+    }
+}
+
 enum class ChosenLanguage {
     English,
     Spanish
@@ -41,7 +61,6 @@ sealed interface GameStatus {
 
         @SerialName("chosenLanguage")
         val chosenLanguage: ChosenLanguage,
-
 
         @SerialName("words")
         val words: List<Word>
