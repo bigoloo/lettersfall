@@ -1,6 +1,6 @@
-package com.bigoloo.lettersfall.domian.data.repository
+package com.bigoloo.lettersfall.data.repository
 
-import com.bigoloo.lettersfall.domian.data.api.WordApi
+import com.bigoloo.lettersfall.data.api.WordApi
 import com.bigoloo.lettersfall.domian.repository.WordRepository
 import com.bigoloo.lettersfall.models.ChosenLanguage
 import com.bigoloo.lettersfall.models.GameStatus

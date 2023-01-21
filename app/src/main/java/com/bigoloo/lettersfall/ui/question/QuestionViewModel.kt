@@ -2,7 +2,6 @@ package com.bigoloo.lettersfall.ui.question
 
 import androidx.lifecycle.viewModelScope
 import com.bigoloo.lettersfall.domian.repository.WordRepository
-import com.bigoloo.lettersfall.models.ChosenLanguage
 import com.bigoloo.lettersfall.models.GameStatus
 import com.bigoloo.lettersfall.ui.base.BaseViewModel
 import kotlinx.coroutines.Job
@@ -73,108 +72,27 @@ class QuestionViewModel(private val wordRepository: WordRepository) :
                 stopTimer()
             }
             is QuestionAction.TimerCount -> {
-                wordRepository.setGameStatus(produceNextGameState(currentGameStatus, action))
-            }
-            QuestionAction.TimerFinish -> {
-                wordRepository.setGameStatus(produceNextGameState(currentGameStatus, action))
-                if (currentGameStatus.currentIndex != currentGameStatus.words.lastIndex) {
-                    startTimer(
-                        0,
-                        currentGameStatus.timePerQuestionInSecond
-                    )
+                reducer(currentGameStatus, action).also {
+                    wordRepository.setGameStatus(it)
                 }
             }
-            QuestionAction.TranslateIsCorrect -> {
-                wordRepository.setGameStatus(produceNextGameState(currentGameStatus, action))
-                if (currentGameStatus.currentIndex != currentGameStatus.words.lastIndex) {
-                    startTimer(
-                        0,
-                        currentGameStatus.timePerQuestionInSecond
-                    )
-                }
 
-            }
-            QuestionAction.TranslateIsWrong -> {
-                wordRepository.setGameStatus(produceNextGameState(currentGameStatus, action))
-                if (currentGameStatus.currentIndex != currentGameStatus.words.lastIndex) {
-                    startTimer(
-                        0,
-                        currentGameStatus.timePerQuestionInSecond
-                    )
+            QuestionAction.TimerFinish, QuestionAction.TranslateIsCorrect, QuestionAction.TranslateIsWrong -> {
+                reducer(currentGameStatus, action).also {
+                    wordRepository.setGameStatus(it)
                 }
+                restartTimer(currentGameStatus)
             }
         }
         checkFinishGame(currentGameStatus, action)
     }
 
-
-    private fun produceNextGameState(
-        currentGameStatus: GameStatus.Started,
-        action: QuestionAction
-    ): GameStatus {
-        val unAnsweredQuestionCount = (action as? QuestionAction.TimerFinish)?.let {
-            currentGameStatus.unAnsweredQuestionCount + 1
-        } ?: 1
-        return when (action) {
-            is QuestionAction.TimerCount -> {
-                currentGameStatus.copy(
-                    currentTimerInSecond = action.currentTimerInSecond,
-                )
-            }
-            QuestionAction.TimerFinish -> {
-                if (currentGameStatus.currentIndex == currentGameStatus.words.lastIndex) {
-                    GameStatus.Finished(
-                        wrongAnswerCount = currentGameStatus.wrongAnswerCount,
-                        correctAnswerCount = currentGameStatus.correctAnswerCount,
-                        unAnsweredQuestionCount = unAnsweredQuestionCount + 1,
-                        chosenLanguage = ChosenLanguage.English
-                    )
-                } else {
-                    currentGameStatus.copy(
-                        currentWord = currentGameStatus.words[currentGameStatus.currentIndex + 1],
-                        currentIndex = currentGameStatus.currentIndex + 1,
-                        unAnsweredQuestionCount = unAnsweredQuestionCount + 1,
-                        currentTimerInSecond = 0,
-                    )
-                }
-            }
-            QuestionAction.TranslateIsCorrect -> {
-                if (currentGameStatus.currentIndex == currentGameStatus.words.lastIndex) {
-                    GameStatus.Finished(
-                        wrongAnswerCount = currentGameStatus.wrongAnswerCount,
-                        correctAnswerCount = currentGameStatus.correctAnswerCount + 1,
-                        unAnsweredQuestionCount = unAnsweredQuestionCount,
-                        chosenLanguage = ChosenLanguage.English
-                    )
-                } else {
-                    currentGameStatus.copy(
-                        currentWord = currentGameStatus.words[currentGameStatus.currentIndex + 1],
-                        correctAnswerCount = currentGameStatus.correctAnswerCount + 1,
-                        currentIndex = currentGameStatus.currentIndex + 1,
-                        currentTimerInSecond = 0,
-                    )
-                }
-            }
-            QuestionAction.TranslateIsWrong -> {
-                if (currentGameStatus.currentIndex == currentGameStatus.words.lastIndex) {
-                    GameStatus.Finished(
-                        correctAnswerCount = currentGameStatus.correctAnswerCount,
-                        wrongAnswerCount = currentGameStatus.wrongAnswerCount + 1,
-                        unAnsweredQuestionCount = unAnsweredQuestionCount,
-                        chosenLanguage = ChosenLanguage.English
-                    )
-                } else {
-                    currentGameStatus.copy(
-                        currentWord = currentGameStatus.words[currentGameStatus.currentIndex + 1],
-                        wrongAnswerCount = currentGameStatus.wrongAnswerCount + 1,
-                        currentIndex = currentGameStatus.currentIndex + 1,
-                        currentTimerInSecond = 0,
-                    )
-                }
-            }
-            else -> {
-                currentGameStatus
-            }
+    private fun restartTimer(currentGameStatus: GameStatus.Started) {
+        if (currentGameStatus.currentIndex != currentGameStatus.words.lastIndex) {
+            startTimer(
+                0,
+                currentGameStatus.timePerQuestionInSecond
+            )
         }
     }
 

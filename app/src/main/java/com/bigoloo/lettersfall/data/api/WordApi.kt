@@ -1,4 +1,4 @@
-package com.bigoloo.lettersfall.domian.data.api
+package com.bigoloo.lettersfall.data.api
 
 import com.bigoloo.lettersfall.models.Word
 import retrofit2.http.GET

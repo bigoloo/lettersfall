@@ -1,7 +1,7 @@
 package com.bigoloo.lettersfall.di
 
-import com.bigoloo.lettersfall.domian.data.api.WordApi
-import com.bigoloo.lettersfall.domian.data.repository.RemoteWordRepository
+import com.bigoloo.lettersfall.data.api.WordApi
+import com.bigoloo.lettersfall.data.repository.RemoteWordRepository
 import com.bigoloo.lettersfall.domian.repository.WordRepository
 import com.bigoloo.lettersfall.ui.home.HomeViewModel
 import com.bigoloo.lettersfall.ui.question.QuestionViewModel

@@ -77,6 +77,6 @@ sealed interface GameStatus {
         val unAnsweredQuestionCount: Int,
 
         @SerialName("chosenLanguage")
-        val chosenLanguage: ChosenLanguage,
+        val chosenLanguage: ChosenLanguage
     ) : GameStatus
 }
