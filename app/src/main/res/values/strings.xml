@@ -4,4 +4,6 @@
     <string name="remain_time">Remains</string>
     <string name="english">English</string>
     <string name="spanish">Spanish</string>
+    <string name="btn_correct_text">Correct</string>
+    <string name="btn_wrong_text">Wrong</string>
 </resources>

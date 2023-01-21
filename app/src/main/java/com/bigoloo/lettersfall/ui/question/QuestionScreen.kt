@@ -30,6 +30,40 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun QuestionScreen(modifier: Modifier, navController: NavController) {
+
+    val questionViewModel = koinViewModel<QuestionViewModel>()
+
+    ComposableLifecycle { _, event ->
+        when (event) {
+            Lifecycle.Event.ON_RESUME -> questionViewModel.dispatch(QuestionAction.ViewStart)
+            Lifecycle.Event.ON_PAUSE -> questionViewModel.dispatch(QuestionAction.ViewStop)
+            else -> {}
+        }
+    }
+    LaunchedEffect(key1 = Unit, block = {
+        questionViewModel.effect.collect {
+            when (it) {
+                QuestionEffect.QuestionsFinished -> navController.navigate("gameResultScreen")
+            }
+        }
+    })
+
+    val state = questionViewModel.viewState.collectAsStateWithLifecycle()
+
+
+    (state.value as? QuestionViewState.State)?.let { state ->
+        QuestionContent(modifier, state) {
+            questionViewModel.dispatch(it)
+        }
+    }
+}
+
+@Composable
+fun QuestionContent(
+    modifier: Modifier,
+    state: QuestionViewState.State,
+    onAction: (action: QuestionAction) -> Unit
+) {
     Column(
         modifier = modifier
             .fillMaxHeight()
@@ -37,86 +71,64 @@ fun QuestionScreen(modifier: Modifier, navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        val questionViewModel = koinViewModel<QuestionViewModel>()
+        val configuration = LocalConfiguration.current
+        val offsetAnimation: Dp by animateDpAsState(
+            ((state.timePerQuestionInSecond - state.remainTimeInSecond).toFloat()
+                .div(state.timePerQuestionInSecond)
+                    * configuration.screenHeightDp).dp,
+            animationSpec = tween(easing = LinearOutSlowInEasing)
+        )
+        Spacer(modifier = modifier.height(32.dp))
+        Text(text = state.word.mainWord(state.chosenLanguage), style = Typography.headlineMedium)
+        Text(
+            modifier = modifier.absoluteOffset(y = offsetAnimation),
+            style = Typography.headlineSmall,
+            text = state.word.flyingWord(state.chosenLanguage)
+        )
 
-        ComposableLifecycle { _, event ->
-            when (event) {
-                Lifecycle.Event.ON_RESUME -> questionViewModel.dispatch(QuestionAction.ViewStart)
-                Lifecycle.Event.ON_PAUSE -> questionViewModel.dispatch(QuestionAction.ViewStop)
-                else -> {}
+        Spacer(modifier = modifier.weight(1f))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            Text(text = "${(state.currentQuestionIndex)} / ${state.totalWordCount}")
+
+            Row() {
+                Text(text = stringResource(id = R.string.remain_time))
+                AnimatedContent(targetState = state.remainTimeInSecond, transitionSpec = {
+                    addAnimation().using(
+                        SizeTransform(clip = false)
+                    )
+                }) {
+                    Text(text = "${(state.remainTimeInSecond)}")
+                }
             }
         }
-        LaunchedEffect(key1 = Unit, block = {
-            questionViewModel.effect.collect {
-                when (it) {
-                    QuestionEffect.QuestionsFinished -> navController.navigate("gameResultScreen")
-                }
+        Spacer(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(16.dp)
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Button(onClick = {
+                onAction(QuestionAction.TranslateIsCorrect)
+            }) {
+                Text(text = stringResource(id = R.string.btn_correct_text))
             }
-        })
-
-        val state = questionViewModel.viewState.collectAsStateWithLifecycle()
-
-
-        (state.value as? QuestionViewState.State)?.let { state ->
-
-            val configuration = LocalConfiguration.current
-            val offsetAnimation: Dp by animateDpAsState(
-                ((state.timePerQuestionInSecond - state.remainTimeInSecond).toFloat()
-                    .div(state.timePerQuestionInSecond)
-                        * configuration.screenHeightDp).dp,
-                animationSpec = tween(easing = LinearOutSlowInEasing)
-            )
-            Spacer(modifier = modifier.height(32.dp))
-            Text(text = state.word.mainWord(state.chosenLanguage), style = Typography.headlineMedium)
-            Text(
-                modifier = modifier.absoluteOffset(y = offsetAnimation),
-                style = Typography.headlineSmall,
-                text = state.word.flyingWord(state.chosenLanguage)
-            )
-
-            Spacer(modifier = modifier.weight(1f))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceAround
-            ) {
-                Text(text = "${(state.currentQuestionIndex)} / ${state.totalWordCount}")
-
-                Row() {
-                    Text(text = stringResource(id = R.string.remain_time))
-                    AnimatedContent(targetState = state.remainTimeInSecond, transitionSpec = {
-                        addAnimation().using(
-                            SizeTransform(clip = false)
-                        )
-                    }) {
-                        Text(text = "${(state.remainTimeInSecond)}")
-                    }
-                }
-            }
-            Spacer(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .height(16.dp)
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Button(onClick = {
-                    questionViewModel.dispatch(QuestionAction.TranslateIsCorrect)
-                }) {
-                    Text(text = "Correct")
-                }
-                Button(onClick = {
-                    questionViewModel.dispatch(QuestionAction.TranslateIsWrong)
-                }) {
-                    Text(text = "Wrong")
-                }
+            Button(onClick = {
+                onAction(QuestionAction.TranslateIsWrong)
+            }) {
+                Text(text = stringResource(id = R.string.btn_wrong_text))
             }
         }
     }
+
 }
 
 
