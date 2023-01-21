@@ -1,4 +1,4 @@
-package com.bigoloo.lettersfall
+package com.bigoloo.lettersfall.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

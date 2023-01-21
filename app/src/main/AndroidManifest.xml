@@ -12,7 +12,7 @@
         android:theme="@style/Theme.LettersFall"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.LettersFall">
             <intent-filter>
