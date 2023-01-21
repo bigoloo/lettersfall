@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.bigoloo.lettersfall.ui.home.HomeScreen
 import com.bigoloo.lettersfall.ui.question.QuestionScreen
+import com.bigoloo.lettersfall.ui.result.GameResultScreen
 
 
 @Composable

@@ -73,10 +73,19 @@ sealed interface GameStatus {
         @SerialName("wrongAnswerCount")
         val wrongAnswerCount: Int,
 
-        @SerialName("UnAnsweredCount")
+        @SerialName("unAnsweredCount")
         val unAnsweredQuestionCount: Int,
 
         @SerialName("chosenLanguage")
         val chosenLanguage: ChosenLanguage
-    ) : GameStatus
+    ) : GameStatus {
+        fun toTable(): List<Pair<String, Any>> {
+            return buildList {
+                add("correctAnswerCount" to correctAnswerCount)
+                add("wrongAnswerCount" to wrongAnswerCount)
+                add("UnAnsweredCount" to unAnsweredQuestionCount)
+                add("chosenLanguage" to chosenLanguage)
+            }
+        }
+    }
 }

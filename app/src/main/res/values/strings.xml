@@ -6,4 +6,8 @@
     <string name="spanish">Spanish</string>
     <string name="btn_correct_text">Correct</string>
     <string name="btn_wrong_text">Wrong</string>
+    <string name="correct_answers_count">Correct Answer Count: </string>
+    <string name="wrong_answers_count">Wrong Answer Count: </string>
+    <string name="un_answered_count">Un Answered Count: </string>
+    <string name="chosen_language">Chosen Language: </string>
 </resources>

@@ -1,4 +1,4 @@
-package com.bigoloo.lettersfall.domian.data.repository
+package com.bigoloo.lettersfall.data.repository
 
 import com.bigoloo.lettersfall.data.repository.RemoteWordRepository
 import com.bigoloo.lettersfall.fixtures.dummyWordApi

@@ -5,6 +5,7 @@ import com.bigoloo.lettersfall.data.repository.RemoteWordRepository
 import com.bigoloo.lettersfall.domian.repository.WordRepository
 import com.bigoloo.lettersfall.ui.home.HomeViewModel
 import com.bigoloo.lettersfall.ui.question.QuestionViewModel
+import com.bigoloo.lettersfall.ui.result.GameResultViewModel
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -38,5 +39,8 @@ val appModule = module {
     }
     viewModel {
         QuestionViewModel(get())
+    }
+    viewModel {
+        GameResultViewModel(get())
     }
 }
