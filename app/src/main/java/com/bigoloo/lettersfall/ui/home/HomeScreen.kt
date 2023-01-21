@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.bigoloo.lettersfall.R
 import com.bigoloo.lettersfall.models.ChosenLanguage
 import com.bigoloo.lettersfall.models.GameStatus
 import com.bigoloo.lettersfall.ui.base.Actionable
@@ -59,7 +60,7 @@ fun HomeScreen(
                 is Actionable.Failed -> {
                     Toast.makeText(
                         LocalContext.current,
-                        "Failed to Start Try Again",
+                        stringResource(id = R.string.try_again),
                         Toast.LENGTH_LONG
                     ).show()
                 }

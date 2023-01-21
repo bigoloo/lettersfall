@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LettersFall</string>
+    <string name="app_name">Letters Fall</string>
     <string name="welcome_to_game">Welcome to Game</string>
     <string name="remain_time">Remains</string>
     <string name="english">English</string>
@@ -10,4 +10,5 @@
     <string name="wrong_answers_count">Wrong Answer Count: </string>
     <string name="un_answered_count">Un Answered Count: </string>
     <string name="chosen_language">Chosen Language: </string>
+    <string name="try_again">Failed to fetch initial information, please try again</string>
 </resources>
