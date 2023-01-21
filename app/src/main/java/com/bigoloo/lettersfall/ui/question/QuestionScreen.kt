@@ -17,12 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.bigoloo.lettersfall.R
+import com.bigoloo.lettersfall.models.ChosenLanguage
+import com.bigoloo.lettersfall.models.Word
 import com.bigoloo.lettersfall.models.flyingWord
 import com.bigoloo.lettersfall.models.mainWord
 import com.bigoloo.lettersfall.ui.base.ui.ComposableLifecycle
@@ -41,6 +44,7 @@ fun QuestionScreen(modifier: Modifier, navController: NavController) {
             else -> {}
         }
     }
+
     LaunchedEffect(key1 = Unit, block = {
         questionViewModel.effect.collect {
             when (it) {
@@ -50,7 +54,6 @@ fun QuestionScreen(modifier: Modifier, navController: NavController) {
     })
 
     val state = questionViewModel.viewState.collectAsStateWithLifecycle()
-
 
     (state.value as? QuestionViewState.State)?.let { state ->
         QuestionContent(modifier, state) {
@@ -95,7 +98,7 @@ fun QuestionContent(
         ) {
             Text(text = "${(state.currentQuestionIndex)} / ${state.totalWordCount}")
 
-            Row() {
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(text = stringResource(id = R.string.remain_time))
                 AnimatedContent(targetState = state.remainTimeInSecond, transitionSpec = {
                     addAnimation().using(
@@ -132,6 +135,22 @@ fun QuestionContent(
 
 }
 
+@Preview
+@Composable
+fun QuestionContentPreview() {
+    val viewState =
+        QuestionViewState.State(
+            Word("English", "Spanish"), 12,
+            33, 3,
+            12, ChosenLanguage.Spanish
+        )
+
+    QuestionContent(modifier = Modifier
+        .fillMaxWidth()
+        .fillMaxHeight(), state = viewState) {
+
+    }
+}
 
 fun addAnimation(duration: Int = 1000): ContentTransform {
     return slideInVertically(animationSpec = tween(durationMillis = duration)) { height -> height } + fadeIn(

@@ -11,4 +11,5 @@
     <string name="un_answered_count">Un Answered Count: </string>
     <string name="chosen_language">Chosen Language: </string>
     <string name="try_again">Failed to fetch initial information, please try again</string>
+    <string name="choose_the_langauge">"Choose the language: "</string>
 </resources>
