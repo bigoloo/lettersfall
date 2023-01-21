@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -116,12 +117,12 @@ fun QuestionContent(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Button(onClick = {
+            Button(modifier = Modifier.testTag("correctButton"), onClick = {
                 onAction(QuestionAction.TranslateIsCorrect)
             }) {
                 Text(text = stringResource(id = R.string.btn_correct_text))
             }
-            Button(onClick = {
+            Button(modifier = Modifier.testTag("wrongButton"), onClick = {
                 onAction(QuestionAction.TranslateIsWrong)
             }) {
                 Text(text = stringResource(id = R.string.btn_wrong_text))
