@@ -33,6 +33,7 @@ class HomeViewModel(private val wordRepository: WordRepository) :
     }
 
     private fun initiateGame(chosenLanguage: ChosenLanguage) {
+        if (viewState.value.asLoaded()?.startGameActionable is Actionable.InProgress) return
         viewModelScope.launch {
             setState {
                 asLoaded()!!.copy(startGameActionable = Actionable.InProgress)
