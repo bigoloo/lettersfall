@@ -57,14 +57,12 @@ android {
 }
 dependencies {
 
-    implementation(libs.coil.compose)
     implementation(libs.kotlinx.serialization)
     implementation(libs.coroutine.android)
     implementation(libs.bundles.koin)
     implementation(libs.bundles.retrofit)
     testImplementation(libs.coroutine.test)
     testImplementation(libs.bundles.junit)
-    testImplementation(libs.mockito.core)
 
     debugImplementation(libs.leak.canary)
 

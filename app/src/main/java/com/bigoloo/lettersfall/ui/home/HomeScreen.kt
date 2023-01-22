@@ -82,7 +82,7 @@ fun HomeScreen(
                 else -> {}
             }
             when (currentGameStatus.gameState) {
-                GameStatus.NotStarted -> {
+                is GameStatus.NotStarted -> {
                     Button(onClick = {
                         wordFallViewModel.dispatch(HomeAction.InitiateGame(selectedLanguage))
                     }) {

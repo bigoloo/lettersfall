@@ -1,7 +1,7 @@
 package com.bigoloo.lettersfall.ui.home
 
 import androidx.lifecycle.viewModelScope
-import com.bigoloo.lettersfall.domian.repository.WordRepository
+import com.bigoloo.lettersfall.domain.repository.WordRepository
 import com.bigoloo.lettersfall.models.ChosenLanguage
 import com.bigoloo.lettersfall.ui.base.Actionable
 import com.bigoloo.lettersfall.ui.base.BaseViewModel

@@ -35,8 +35,13 @@ enum class ChosenLanguage {
     Spanish
 }
 
-sealed interface GameStatus {
-    object NotStarted : GameStatus
+sealed class GameStatus(
+    @SerialName("timePerQuestion")
+    open val timePerQuestionInSecond: Int,
+) : com.bigoloo.lettersfall.domain.redux.State {
+    data class NotStarted(override val timePerQuestionInSecond: Int) :
+        GameStatus(timePerQuestionInSecond)
+
     data class Started(
         @SerialName("currentWord")
         val currentWord: Word,
@@ -48,7 +53,7 @@ sealed interface GameStatus {
         val currentIndex: Int,
 
         @SerialName("timePerQuestion")
-        val timePerQuestionInSecond: Int,
+        override val timePerQuestionInSecond: Int,
 
         @SerialName("correctAnswerCount")
         val correctAnswerCount: Int,
@@ -64,7 +69,7 @@ sealed interface GameStatus {
 
         @SerialName("words")
         val words: List<Word>
-    ) : GameStatus
+    ) : GameStatus(timePerQuestionInSecond)
 
     data class Finished(
         @SerialName("correctAnswerCount")
@@ -73,12 +78,15 @@ sealed interface GameStatus {
         @SerialName("wrongAnswerCount")
         val wrongAnswerCount: Int,
 
+        @SerialName("timePerQuestion")
+        override val timePerQuestionInSecond: Int,
+
         @SerialName("unAnsweredCount")
         val unAnsweredQuestionCount: Int,
 
         @SerialName("chosenLanguage")
         val chosenLanguage: ChosenLanguage
-    ) : GameStatus {
+    ) : GameStatus(timePerQuestionInSecond) {
         fun toTable(): List<Pair<String, Any>> {
             return buildList {
                 add("correctAnswerCount" to correctAnswerCount)

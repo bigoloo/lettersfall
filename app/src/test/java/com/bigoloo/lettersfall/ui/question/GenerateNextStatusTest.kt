@@ -1,5 +1,6 @@
 package com.bigoloo.lettersfall.ui.question
 
+import com.bigoloo.lettersfall.domain.question.QuestionReducer
 import com.bigoloo.lettersfall.fixtures.wordList
 import com.bigoloo.lettersfall.models.ChosenLanguage
 import com.bigoloo.lettersfall.models.GameStatus
@@ -28,7 +29,7 @@ class GenerateNextStatusTest {
             chosenLanguage = expectedChosenLanguage,
             words = wordList
         )
-        val newStatus = generateNextStatus(
+        val newStatus = QuestionReducer().generateNextStatus(
             currentGameStatus,
             expectedWrongAnswerCount,
             expectedCorrectAnswerCount,
@@ -63,7 +64,7 @@ class GenerateNextStatusTest {
             chosenLanguage = expectedChosenLanguage,
             words = wordList
         )
-        val newStatus = generateNextStatus(
+        val newStatus = QuestionReducer().generateNextStatus(
             currentGameStatus,
             expectedWrongAnswerCount,
             expectedCorrectAnswerCount,

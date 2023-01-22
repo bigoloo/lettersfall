@@ -1,7 +1,7 @@
 package com.bigoloo.lettersfall.data.repository
 
 import com.bigoloo.lettersfall.data.api.WordApi
-import com.bigoloo.lettersfall.domian.repository.WordRepository
+import com.bigoloo.lettersfall.domain.repository.WordRepository
 import com.bigoloo.lettersfall.models.ChosenLanguage
 import com.bigoloo.lettersfall.models.GameStatus
 import com.bigoloo.lettersfall.models.Word
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 class RemoteWordRepository(private val wordApi: WordApi) : WordRepository {
 
-    private val _gameState = MutableStateFlow<GameStatus>(GameStatus.NotStarted)
+    private val _gameState = MutableStateFlow<GameStatus>(GameStatus.NotStarted(10))
 
     override suspend fun getWordList(): List<Word> {
         return wordApi.getWordList()
@@ -44,7 +44,7 @@ class RemoteWordRepository(private val wordApi: WordApi) : WordRepository {
             wrongAnswerCount = 0,
             currentTimerInSecond = 0,
             unAnsweredQuestionCount = 0,
-            timePerQuestionInSecond = 10,
+            timePerQuestionInSecond = _gameState.value.timePerQuestionInSecond,
             chosenLanguage = chosenLanguage,
             words = words
         )

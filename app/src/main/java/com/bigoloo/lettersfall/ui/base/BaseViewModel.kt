@@ -8,11 +8,10 @@ import kotlinx.coroutines.launch
 
 interface ViewState
 
-interface ViewAction
 
 interface ViewEffect
 
-abstract class BaseViewModel<Action : ViewAction, UiState : ViewState?, Effect : ViewEffect>(private val initialState: UiState) :
+abstract class BaseViewModel<Action : com.bigoloo.lettersfall.domain.redux.Action, UiState : ViewState?, Effect : ViewEffect>(private val initialState: UiState) :
     ViewModel() {
 
     private val _viewState: MutableStateFlow<UiState> = MutableStateFlow(initialState)

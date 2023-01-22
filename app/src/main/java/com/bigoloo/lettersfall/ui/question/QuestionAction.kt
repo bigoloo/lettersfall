@@ -1,8 +1,9 @@
 package com.bigoloo.lettersfall.ui.question
 
-import com.bigoloo.lettersfall.ui.base.ViewAction
+import com.bigoloo.lettersfall.domain.redux.Action
 
-sealed interface QuestionAction : ViewAction {
+
+sealed interface QuestionAction : Action {
     object TranslateIsCorrect : QuestionAction
     object TranslateIsWrong : QuestionAction
     object TimerFinish : QuestionAction

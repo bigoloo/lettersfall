@@ -2,7 +2,8 @@ package com.bigoloo.lettersfall.di
 
 import com.bigoloo.lettersfall.data.api.WordApi
 import com.bigoloo.lettersfall.data.repository.RemoteWordRepository
-import com.bigoloo.lettersfall.domian.repository.WordRepository
+import com.bigoloo.lettersfall.domain.question.QuestionReducer
+import com.bigoloo.lettersfall.domain.repository.WordRepository
 import com.bigoloo.lettersfall.ui.home.HomeViewModel
 import com.bigoloo.lettersfall.ui.question.QuestionViewModel
 import com.bigoloo.lettersfall.ui.result.GameResultViewModel
@@ -32,6 +33,9 @@ val appModule = module {
     }
     single<WordRepository> {
         RemoteWordRepository(get())
+    }
+    factory {
+        QuestionReducer()
     }
 
     viewModel {

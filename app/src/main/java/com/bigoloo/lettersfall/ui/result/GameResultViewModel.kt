@@ -1,7 +1,7 @@
 package com.bigoloo.lettersfall.ui.result
 
 import androidx.lifecycle.viewModelScope
-import com.bigoloo.lettersfall.domian.repository.WordRepository
+import com.bigoloo.lettersfall.domain.repository.WordRepository
 import com.bigoloo.lettersfall.models.GameStatus
 import com.bigoloo.lettersfall.ui.base.BaseViewModel
 import kotlinx.coroutines.flow.filterIsInstance

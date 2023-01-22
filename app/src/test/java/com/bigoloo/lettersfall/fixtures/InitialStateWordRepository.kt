@@ -1,6 +1,6 @@
 package com.bigoloo.lettersfall.fixtures
 
-import com.bigoloo.lettersfall.domian.repository.WordRepository
+import com.bigoloo.lettersfall.domain.repository.WordRepository
 import com.bigoloo.lettersfall.models.ChosenLanguage
 import com.bigoloo.lettersfall.models.GameStatus
 import com.bigoloo.lettersfall.models.Word

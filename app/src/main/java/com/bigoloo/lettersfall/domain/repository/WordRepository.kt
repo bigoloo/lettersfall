@@ -1,4 +1,4 @@
-package com.bigoloo.lettersfall.domian.repository
+package com.bigoloo.lettersfall.domain.repository
 
 import com.bigoloo.lettersfall.models.ChosenLanguage
 import com.bigoloo.lettersfall.models.GameStatus
