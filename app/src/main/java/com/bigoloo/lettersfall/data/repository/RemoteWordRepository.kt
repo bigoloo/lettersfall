@@ -31,7 +31,7 @@ class RemoteWordRepository(private val wordApi: WordApi) : WordRepository {
     }
 
     override suspend fun startGame(chosenLanguage: ChosenLanguage) {
-        wordApi.getWordList().take(5).also {
+        wordApi.getWordList().also {
             startTheGame(it, chosenLanguage)
         }
     }
