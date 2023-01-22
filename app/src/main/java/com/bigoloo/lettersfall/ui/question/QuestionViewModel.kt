@@ -35,18 +35,16 @@ class QuestionViewModel(
     }
 
     private fun produceViewState(status: GameStatus.Started) {
-        viewModelScope.launch {
-            if (status.timePerQuestionInSecond - status.currentTimerInSecond != 0) {
-                setState {
-                    QuestionViewState.State(
-                        status.currentWord,
-                        (status.timePerQuestionInSecond - status.currentTimerInSecond),
-                        status.timePerQuestionInSecond,
-                        status.currentIndex + 1,
-                        status.words.size,
-                        chosenLanguage = status.chosenLanguage
-                    )
-                }
+        if (status.timePerQuestionInSecond - status.currentTimerInSecond != 0) {
+            setState {
+                QuestionViewState.State(
+                    status.currentWord,
+                    (status.timePerQuestionInSecond - status.currentTimerInSecond),
+                    status.timePerQuestionInSecond,
+                    status.currentIndex + 1,
+                    status.words.size,
+                    chosenLanguage = status.chosenLanguage
+                )
             }
         }
     }
